@@ -1,84 +1,121 @@
-# diamond-setup
+# sigillin
 
-**Universal Python project scaffold** — generate professional, CI-ready skeletons in seconds.
+**The poetic-symbolic interface layer** – self-referential sigils that bind fieldtheory,
+cosmic moments and entropy governance into living resonance.
 
-[![CI](https://github.com/GenesisAeon/diamond-setup/actions/workflows/ci.yml/badge.svg)](https://github.com/GenesisAeon/diamond-setup/actions/workflows/ci.yml)
+[![CI](https://github.com/GenesisAeon/sigillin/actions/workflows/ci.yml/badge.svg)](https://github.com/GenesisAeon/sigillin/actions/workflows/ci.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
-No cookiecutter, no Jinja2, no magic. Just a clean CLI that produces a fully working project — `uv sync`, `pytest`, ruff, pre-commit and CI all wired up from second one.
+[![PyPI](https://img.shields.io/pypi/v/sigillin)](https://pypi.org/project/sigillin/)
 
 ---
 
 ## Install
 
 ```bash
-pip install diamond-setup
+pip install sigillin
 # or
-uv tool install diamond-setup
+uv add sigillin
+
+# Full GenesisAeon stack integration
+pip install sigillin[stack]
 ```
 
 ## Usage
 
 ```bash
-# New project with the minimal template (default)
-diamond scaffold my-lib
+# Validate a sigil against the CREP schema
+sig validate codex-sigil.yaml
 
-# GenesisAeon preset (adds domains.yaml + entropy-table bridge)
-diamond scaffold my-physics-tool --template genesis --author "Ada Lovelace"
+# Render MandalaMap resonance spectrum
+sig render cosmic-web.yaml
 
-# Preview what would be generated (no files written)
-diamond scaffold my-lib --dry-run
+# Inspect sigil fields
+sig inspect codex-sigil.yaml
 
-# See all templates
-diamond list-templates
-
-# Validate any project directory
-diamond validate path/to/my-project
-diamond validate          # validates the current directory
+# Create a self-referential provider bridge
+sig bridge openai
 ```
 
-## What you get
+## Sigil format (trilayer: YAML / JSON / Markdown)
 
-Running `diamond scaffold my-lib` produces:
+Sigillin accepts three source formats:
 
-```
-my-lib/
-├── src/
-│   └── my_lib/
-│       └── __init__.py       # __version__ = "0.1.0"
-├── tests/
-│   ├── __init__.py
-│   └── test_main.py
-├── .github/
-│   └── workflows/
-│       └── ci.yml            # matrix: 3.11 + 3.12
-├── pyproject.toml            # hatchling, ruff, pytest configured
-├── README.md
-├── .gitignore
-└── .pre-commit-config.yaml   # ruff + standard hooks
+```yaml
+# codex-sigil.yaml
+coherence: 0.97
+resonance: 0.88
+emergence: 0.92
+poetics: "The first sigil – carrier of the primal pattern."
 ```
 
-Then just:
-
-```bash
-cd my-lib
-uv sync --dev
-pre-commit install
-uv run pytest
+```json
+{ "coherence": 0.97, "resonance": 0.88, "emergence": 0.92, "poetics": "..." }
 ```
 
-## Templates
+```markdown
+---
+coherence: 0.97
+resonance: 0.88
+emergence: 0.92
+poetics: "The first sigil – carrier of the primal pattern."
+---
+# Codex Prime
 
-| Template | Description |
-|----------|-------------|
-| `minimal` | Clean Python package for everyone |
-| `genesis` | Adds `domains.yaml` + entropy-table bridge (GenesisAeon preset) |
+Full narrative description here.
+```
 
-## Extending
+## CREP validation
 
-Adding a new template is one Python file. See [docs/templates.md](docs/templates.md).
+Every sigil is validated against four pillars:
+
+| Key | Meaning |
+|---|---|
+| `coherence` | Internal self-consistency |
+| `resonance` | Harmonic alignment with the field |
+| `emergence` | Capacity for novel pattern generation |
+| `poetics` | Narrative / symbolic intent |
+
+```python
+from sigillin import Sigil
+
+sigil = Sigil("codex-sigil.yaml")
+sigil.validate_crep()   # True / False
+sigil.assert_crep()     # raises SigilValidationError if invalid
+```
+
+## MandalaMap resonance
+
+```python
+spectrum = sigil.render_mandala(depth=0.618)  # φ-scaled resonance array
+print(f"Peak: {spectrum.max():.4f}")
+```
+
+## Stack integration
+
+With `pip install sigillin[stack]`, sigillin binds directly to the full GenesisAeon stack:
+
+```python
+sigil.bind_to_field()   # returns Lagrangian string from fieldtheory
+```
+
+```python
+from sigillin.entropy_table_bridge import export_to_entropy_table
+export_to_entropy_table("codex-sigil.yaml")
+```
+
+## Python API
+
+```python
+from sigillin import Sigil
+
+sigil = Sigil("codex-sigil.yaml")
+print(sigil["coherence"])          # 0.97
+print(sigil.get("tags", []))       # []
+print(repr(sigil))                 # Sigil(path=..., crep_valid=True)
+```
 
 ---
 
-Built with [uv](https://docs.astral.sh/uv/) · [Typer](https://typer.tiangolo.com/) · [Rich](https://rich.readthedocs.io/)
+Built with [uv](https://docs.astral.sh/uv/) · [Typer](https://typer.tiangolo.com/) ·
+[Rich](https://rich.readthedocs.io/) · [NumPy](https://numpy.org/)
