@@ -1,4 +1,4 @@
-"""SigilParser – trilayer YAML/JSON/Markdown loader with CREP validation and MandalaMap resonance."""
+"""SigilParser – trilayer YAML/JSON/Markdown loader with CREP validation."""
 
 from __future__ import annotations
 

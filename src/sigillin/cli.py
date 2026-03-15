@@ -8,7 +8,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from .core import Sigil, SigilValidationError
+from .core import Sigil
 
 app = typer.Typer(
     name="sig",
@@ -24,7 +24,8 @@ _CREP_KEYS = ("coherence", "resonance", "emergence", "poetics")
 def validate(
     path: Path = typer.Argument(..., help="Path to sigil file (YAML/JSON/Markdown)"),
 ) -> None:
-    """Validate a sigil against the CREP schema (Coherence · Resonance · Emergence · Poetics)."""
+    """Validate a sigil against the CREP schema (Coherence · Resonance · Emergence).
+    """
     if not path.exists():
         console.print(f"[bold red]✗ File not found:[/] {path}")
         raise typer.Exit(1)
@@ -79,10 +80,12 @@ def inspect(
 
 @app.command()
 def bridge(
-    provider: str = typer.Argument("openai", help="Provider name for self-referential bridge"),
+    provider: str = typer.Argument("openai", help="Provider name for bridge"),
 ) -> None:
     """Create a self-referential provider bridge."""
-    console.print(f"[bold cyan]Selfmeta bridge for [white]{provider}[/white] created[/]")
+    console.print(
+        f"[bold cyan]Selfmeta bridge for [white]{provider}[/white] created[/]"
+    )
 
 
 if __name__ == "__main__":
