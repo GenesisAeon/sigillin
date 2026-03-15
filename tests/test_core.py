@@ -32,6 +32,7 @@ PARTIAL_CREP = {
 def valid_yaml_sigil(tmp_path: Path) -> Path:
     p = tmp_path / "test.yaml"
     import yaml
+
     p.write_text(yaml.dump(VALID_CREP), encoding="utf-8")
     return p
 
@@ -40,6 +41,7 @@ def valid_yaml_sigil(tmp_path: Path) -> Path:
 def partial_yaml_sigil(tmp_path: Path) -> Path:
     p = tmp_path / "partial.yaml"
     import yaml
+
     p.write_text(yaml.dump(PARTIAL_CREP), encoding="utf-8")
     return p
 

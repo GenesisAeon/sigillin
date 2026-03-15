@@ -24,8 +24,7 @@ _CREP_KEYS = ("coherence", "resonance", "emergence", "poetics")
 def validate(
     path: Path = typer.Argument(..., help="Path to sigil file (YAML/JSON/Markdown)"),
 ) -> None:
-    """Validate a sigil against the CREP schema (Coherence · Resonance · Emergence).
-    """
+    """Validate a sigil against the CREP schema (Coherence · Resonance · Emergence)."""
     if not path.exists():
         console.print(f"[bold red]✗ File not found:[/] {path}")
         raise typer.Exit(1)
