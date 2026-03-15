@@ -7,6 +7,7 @@ cosmic moments and entropy governance into living resonance.
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/sigillin)](https://pypi.org/project/sigillin/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19029975.svg)](https://doi.org/10.5281/zenodo.19029975)
 
 ---
 
@@ -18,8 +19,11 @@ pip install sigillin
 uv add sigillin
 
 # Full GenesisAeon stack integration
-pip install sigillin[stack]
+pip install "sigillin[stack]"
 ```
+
+**DOI**: [10.5281/zenodo.19029975](https://doi.org/10.5281/zenodo.19029975)
+**PyPI**: `pip install sigillin` (oder `pip install "sigillin[stack]"` für den vollen GenesisAeon-Stack)
 
 ## Usage
 
