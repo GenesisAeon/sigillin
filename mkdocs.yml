@@ -36,8 +36,11 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.snippets:
+      base_path: .
 
 nav:
   - Home: index.md
+  - API Reference: api.md
   - CLI Reference: cli.md
-  - API: api.md
+  - Changelog: changelog.md
