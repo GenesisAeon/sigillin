@@ -1,0 +1,41 @@
+# sigillin – domain manifest
+# Trilayer CREP-aligned sigil definitions for MandalaMap integration.
+
+sigils:
+  - name: codex-prime
+    coherence: 0.97
+    resonance: 0.88
+    emergence: 0.92
+    poetics: "The first sigil – carrier of the primal pattern."
+    tags: [genesis, prime, anchor]
+
+  - name: cosmic-web
+    coherence: 0.91
+    resonance: 0.95
+    emergence: 0.87
+    poetics: "Threads of resonance binding all fields into one living topology."
+    tags: [cosmic, web, topology]
+
+  - name: entropy-gate
+    coherence: 0.85
+    resonance: 0.79
+    emergence: 0.94
+    poetics: "The threshold between order and creative dissolution."
+    tags: [entropy, gate, transition]
+
+  - name: mandala-core
+    coherence: 0.99
+    resonance: 0.99
+    emergence: 0.99
+    poetics: "The self-referential centre – sigil that contains all other sigils."
+    tags: [mandala, core, selfref]
+
+stack:
+  fieldtheory: ">=0.1.0"
+  cosmic-moment: ">=0.1.0"
+  entropy-table: ">=1.0.1"
+
+meta:
+  crep_version: "1.0"
+  mandala_depth_default: 0.618
+  phi: 1.618033988749895

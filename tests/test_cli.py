@@ -1,101 +1,141 @@
-"""Tests for the CLI commands."""
+"""Tests for the sigillin CLI (sig)."""
 
+from __future__ import annotations
+
+import json
 from pathlib import Path
 
+import pytest
+import yaml
 from typer.testing import CliRunner
 
-from diamond_setup.cli import app
-from diamond_setup.templates import REGISTRY
+from sigillin.cli import app
 
 runner = CliRunner()
 
+VALID_CREP = {
+    "coherence": 0.9,
+    "resonance": 0.8,
+    "emergence": 0.7,
+    "poetics": "Light bends toward its own source.",
+}
 
-def test_version():
-    result = runner.invoke(app, ["version"])
+PARTIAL_CREP = {
+    "coherence": 0.9,
+    "resonance": 0.8,
+}
+
+
+# ---------------------------------------------------------------------------
+# Fixtures
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+def valid_sigil(tmp_path: Path) -> Path:
+    p = tmp_path / "valid.yaml"
+    p.write_text(yaml.dump(VALID_CREP), encoding="utf-8")
+    return p
+
+
+@pytest.fixture
+def partial_sigil(tmp_path: Path) -> Path:
+    p = tmp_path / "partial.yaml"
+    p.write_text(yaml.dump(PARTIAL_CREP), encoding="utf-8")
+    return p
+
+
+@pytest.fixture
+def valid_json_sigil(tmp_path: Path) -> Path:
+    p = tmp_path / "valid.json"
+    p.write_text(json.dumps(VALID_CREP), encoding="utf-8")
+    return p
+
+
+# ---------------------------------------------------------------------------
+# validate command
+# ---------------------------------------------------------------------------
+
+
+def test_validate_valid(valid_sigil: Path) -> None:
+    result = runner.invoke(app, ["validate", str(valid_sigil)])
     assert result.exit_code == 0
-    assert "1.0.0" in result.output
+    assert "valid" in result.output.lower()
 
 
-def test_list_templates():
-    result = runner.invoke(app, ["list-templates"])
+def test_validate_invalid(partial_sigil: Path) -> None:
+    result = runner.invoke(app, ["validate", str(partial_sigil)])
+    assert result.exit_code != 0
+    assert "invalid" in result.output.lower() or "missing" in result.output.lower()
+
+
+def test_validate_file_not_found(tmp_path: Path) -> None:
+    result = runner.invoke(app, ["validate", str(tmp_path / "missing.yaml")])
+    assert result.exit_code != 0
+    assert "not found" in result.output.lower()
+
+
+def test_validate_json_sigil(valid_json_sigil: Path) -> None:
+    result = runner.invoke(app, ["validate", str(valid_json_sigil)])
     assert result.exit_code == 0
-    for name in REGISTRY:
-        assert name in result.output
+    assert "valid" in result.output.lower()
 
 
-def test_scaffold_minimal(tmp_path):
-    result = runner.invoke(app, ["scaffold", "hello-world", "--output-dir", str(tmp_path)])
-    assert result.exit_code == 0, result.output
-    assert (tmp_path / "hello-world" / "pyproject.toml").exists()
+# ---------------------------------------------------------------------------
+# render command
+# ---------------------------------------------------------------------------
 
 
-def test_scaffold_genesis(tmp_path):
-    result = runner.invoke(
-        app,
-        ["scaffold", "my-genesis", "--template", "genesis", "--output-dir", str(tmp_path)],
-    )
-    assert result.exit_code == 0, result.output
-    assert (tmp_path / "my-genesis" / "domains.yaml").exists()
-
-
-def test_scaffold_unknown_template():
-    result = runner.invoke(app, ["scaffold", "x", "--template", "nonexistent"])
-    assert result.exit_code != 0
-    assert "Unknown template" in result.output
-
-
-def test_scaffold_existing_dir(tmp_path):
-    (tmp_path / "existing-proj").mkdir()
-    result = runner.invoke(app, ["scaffold", "existing-proj", "--output-dir", str(tmp_path)])
-    assert result.exit_code != 0
-    assert "already" in result.output and "exists" in result.output
-
-
-def test_scaffold_dry_run_no_files(tmp_path):
-    result = runner.invoke(
-        app, ["scaffold", "dry-proj", "--output-dir", str(tmp_path), "--dry-run"]
-    )
+def test_render_valid(valid_sigil: Path) -> None:
+    result = runner.invoke(app, ["render", str(valid_sigil)])
     assert result.exit_code == 0
-    assert "Dry run" in result.output
-    assert not (tmp_path / "dry-proj").exists()
+    assert "resonance" in result.output.lower()
 
 
-def test_scaffold_with_overrides(tmp_path):
-    result = runner.invoke(
-        app,
-        [
-            "scaffold",
-            "custom-proj",
-            "--output-dir",
-            str(tmp_path),
-            "--author",
-            "Test Author",
-            "--description",
-            "A test project",
-        ],
-    )
-    assert result.exit_code == 0, result.output
-    pyproject = (tmp_path / "custom-proj" / "pyproject.toml").read_text()
-    assert "Test Author" in pyproject
-    assert "A test project" in pyproject
+def test_render_custom_depth(valid_sigil: Path) -> None:
+    result = runner.invoke(app, ["render", str(valid_sigil), "--depth", "1.0"])
+    assert result.exit_code == 0
+    assert "resonance" in result.output.lower()
 
 
-def test_validate_current_project():
-    """Running validate on diamond-setup's own root should pass."""
-    # Find the repo root (parent of tests/)
-    repo_root = Path(__file__).parent.parent
-    result = runner.invoke(app, ["validate", str(repo_root)])
-    assert result.exit_code == 0, result.output
-    assert "passed" in result.output.lower() or "✔" in result.output
-
-
-def test_validate_missing_pyproject(tmp_path):
-    """A directory without pyproject.toml should fail validation."""
-    result = runner.invoke(app, ["validate", str(tmp_path)])
+def test_render_file_not_found(tmp_path: Path) -> None:
+    result = runner.invoke(app, ["render", str(tmp_path / "ghost.yaml")])
     assert result.exit_code != 0
-    assert "error" in result.output.lower() or "✘" in result.output
 
 
-def test_validate_nonexistent_path():
-    result = runner.invoke(app, ["validate", "/nonexistent/path/xyz"])
+# ---------------------------------------------------------------------------
+# inspect command
+# ---------------------------------------------------------------------------
+
+
+def test_inspect_valid(valid_sigil: Path) -> None:
+    result = runner.invoke(app, ["inspect", str(valid_sigil)])
+    assert result.exit_code == 0
+    assert "coherence" in result.output
+
+
+def test_inspect_shows_crep_status(valid_sigil: Path) -> None:
+    result = runner.invoke(app, ["inspect", str(valid_sigil)])
+    assert "crep" in result.output.lower() or "valid" in result.output.lower()
+
+
+def test_inspect_file_not_found(tmp_path: Path) -> None:
+    result = runner.invoke(app, ["inspect", str(tmp_path / "ghost.yaml")])
     assert result.exit_code != 0
+
+
+# ---------------------------------------------------------------------------
+# bridge command
+# ---------------------------------------------------------------------------
+
+
+def test_bridge_default() -> None:
+    result = runner.invoke(app, ["bridge"])
+    assert result.exit_code == 0
+    assert "openai" in result.output.lower() or "bridge" in result.output.lower()
+
+
+def test_bridge_custom_provider() -> None:
+    result = runner.invoke(app, ["bridge", "anthropic"])
+    assert result.exit_code == 0
+    assert "anthropic" in result.output.lower()

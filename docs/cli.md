@@ -1,88 +1,50 @@
 # CLI Reference
 
-## `diamond scaffold`
-
-Create a new project from a template.
+## sig validate
 
 ```
-Usage: diamond scaffold [OPTIONS] PROJECT_NAME
-
-Arguments:
-  PROJECT_NAME  Name of the new project (kebab-case recommended)
-
-Options:
-  -t, --template TEXT       Template to use [default: minimal]
-  -o, --output-dir PATH     Parent directory for the new project
-  --author TEXT             Author name
-  --description TEXT        Short project description
-  --python-version TEXT     Minimum Python version (e.g. 3.11)
-  --dry-run                 Preview files without writing them
+sig validate PATH
 ```
 
-**Examples**
+Validate a sigil file against the CREP schema.
 
-```bash
-# Minimal project in the current directory
-diamond scaffold my-lib
+**Arguments:**
+- `PATH` – path to sigil file (YAML, JSON, or Markdown with front-matter)
 
-# Genesis preset with custom author
-diamond scaffold my-physics-tool --template genesis --author "Ada Lovelace"
-
-# Preview what would be created
-diamond scaffold my-lib --dry-run
-
-# Output to a specific directory
-diamond scaffold my-lib --output-dir ~/projects
-```
+**Exit codes:** `0` = valid, `1` = invalid or file not found
 
 ---
 
-## `diamond list-templates`
+## sig render
 
-List all available templates with their descriptions.
-
-```bash
-diamond list-templates
 ```
+sig render PATH [--depth FLOAT]
+```
+
+Render the MandalaMap resonance spectrum for a sigil.
+
+**Arguments:**
+- `PATH` – path to sigil file
+
+**Options:**
+- `--depth` – fractal resonance depth (default: `0.618`, the golden ratio φ)
 
 ---
 
-## `diamond validate`
-
-Validate a project directory against diamond-setup best practices.
+## sig inspect
 
 ```
-Usage: diamond validate [PATH]
-
-Arguments:
-  PATH  Project directory to validate [default: current directory]
+sig inspect PATH
 ```
 
-Checks performed:
-
-| Check | Level |
-|-------|-------|
-| `pyproject.toml` present | **Error** |
-| `src/` layout present | Warning |
-| `tests/` directory present | Warning |
-| `.github/workflows/` present | Warning |
-| `README.md` present | Warning |
-| `.gitignore` present | Warning |
-
-```bash
-# Validate the current directory
-diamond validate
-
-# Validate a specific project
-diamond validate path/to/my-project
-```
+Inspect all fields of a sigil in a rich table, with CREP status.
 
 ---
 
-## `diamond version`
+## sig bridge
 
-Print the installed version.
-
-```bash
-diamond version
 ```
+sig bridge [PROVIDER]
+```
+
+Create a self-referential provider bridge (default: `openai`).

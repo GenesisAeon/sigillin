@@ -1,37 +1,36 @@
-# Diamond Setup
+# sigillin
 
-**Universal Python project scaffold** — generate professional, CI-ready project skeletons in seconds.
-
-No cookiecutter, no Jinja2, no magic. Just a clean CLI, sensible templates, and a validator that keeps your projects healthy.
+**The poetic-symbolic interface layer** of the GenesisAeon stack –
+self-referential sigil parser, trilayer validation (YAML/JSON/Markdown)
+and MandalaMap resonance.
 
 ## Quickstart
 
 ```bash
-pip install diamond-setup
-# or with uv:
-uv tool install diamond-setup
+pip install sigillin
+# or
+uv add sigillin
 ```
 
 ```bash
-diamond scaffold my-new-tool
-cd my-new-tool && uv sync --dev && uv run pytest
+sig validate codex-sigil.yaml
+sig render cosmic-web.yaml
 ```
-
-## Why Diamond Setup?
-
-| Feature | diamond-setup | cookiecutter | copier |
-|---------|:---:|:---:|:---:|
-| Zero config needed | ✅ | ❌ | ❌ |
-| Built-in validator | ✅ | ❌ | ❌ |
-| Pure Python templates | ✅ | ❌ | ❌ |
-| `--dry-run` support | ✅ | ❌ | ✅ |
-| Extensible presets | ✅ | ✅ | ✅ |
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `diamond scaffold <name>` | Create a new project |
-| `diamond list-templates` | Show available templates |
-| `diamond validate [path]` | Check a project's health |
-| `diamond version` | Show version |
+| `sig validate <path>` | Validate a sigil against CREP schema |
+| `sig render <path>` | Render MandalaMap resonance spectrum |
+| `sig inspect <path>` | Inspect all sigil fields |
+| `sig bridge [provider]` | Create self-referential provider bridge |
+
+## CREP Keys
+
+| Key | Meaning |
+|---|---|
+| `coherence` | Internal self-consistency |
+| `resonance` | Harmonic alignment with the field |
+| `emergence` | Capacity for novel pattern generation |
+| `poetics` | Narrative / symbolic intent |
