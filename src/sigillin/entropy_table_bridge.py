@@ -38,7 +38,7 @@ def export_to_entropy_table(path: Path | str) -> None:
     extra is not installed.
     """
     try:
-        from entropy_table import register  # type: ignore[import]
+        from entropy_table import register
     except ImportError as exc:
         raise ImportError(
             "entropy-table is not installed. "

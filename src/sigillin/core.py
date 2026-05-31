@@ -109,7 +109,7 @@ class Sigil:
     def bind_to_field(self) -> str:
         """Bind this sigil to the fieldtheory Lagrangian (requires ``[stack]``)."""
         try:
-            from fieldtheory.core import derive_lagrangian  # type: ignore[import]
+            from fieldtheory.core import derive_lagrangian
 
             return str(derive_lagrangian())
         except ImportError:
