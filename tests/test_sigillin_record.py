@@ -8,11 +8,9 @@ import pytest
 
 from sigillin.sigillin_record import (
     CREPValues,
-    NarrativeMetadata,
     Q4StateData,
     SigillinRecord,
     UTACState,
-    ValidationResult,
     compute_sigillin_id,
     create_sigillin,
     deserialize_sigillin,
@@ -32,16 +30,16 @@ FIXED_TS = "2026-04-19T00:00:00+00:00"
 
 
 def make_sigil(**kwargs) -> SigillinRecord:
-    defaults = dict(
-        q4_state=Q4,
-        crep=CREP,
-        symbolic_identity="heimkehr",
-        context="test context",
-        intention="test intention",
-        cycle=3,
-        utac=UTAC,
-        timestamp=FIXED_TS,
-    )
+    defaults = {
+        "q4_state": Q4,
+        "crep": CREP,
+        "symbolic_identity": "heimkehr",
+        "context": "test context",
+        "intention": "test intention",
+        "cycle": 3,
+        "utac": UTAC,
+        "timestamp": FIXED_TS,
+    }
     defaults.update(kwargs)
     return create_sigillin(**defaults)
 
@@ -91,10 +89,8 @@ def test_id_prefix() -> None:
 
 def test_id_excludes_id_field() -> None:
     """compute_sigillin_id ignoriert das 'id'-Feld selbst."""
-    content = {"id": "sig_old", "version": "1.0.0", "foo": "bar"}
-    id1 = compute_sigillin_id(content)
-    content2 = {"id": "sig_other", "version": "1.0.0", "foo": "bar"}
-    id2 = compute_sigillin_id(content2)
+    id1 = compute_sigillin_id({"id": "sig_old", "version": "1.0.0", "foo": "bar"})
+    id2 = compute_sigillin_id({"id": "sig_other", "version": "1.0.0", "foo": "bar"})
     assert id1 == id2
 
 def test_id_order_independent() -> None:
@@ -109,9 +105,10 @@ def test_id_order_independent() -> None:
 # ---------------------------------------------------------------------------
 
 def test_json_roundtrip() -> None:
-    """serialize → deserialize reproduziert exakt denselben Record (BENCHMARK: roundtrip_fidelity)."""
+    """serialize → deserialize exakt (BENCHMARK: roundtrip_fidelity)."""
     original = make_sigil()
-    restored = deserialize_sigillin(serialize_sigillin(original, fmt="json"), fmt="json")
+    serialized = serialize_sigillin(original, fmt="json")
+    restored = deserialize_sigillin(serialized, fmt="json")
     assert original.id == restored.id
     assert original.symbolic_identity == restored.symbolic_identity
     assert original.q4_state == restored.q4_state
@@ -122,7 +119,9 @@ def test_json_roundtrip() -> None:
 def test_yaml_roundtrip() -> None:
     """YAML-Roundtrip (BENCHMARK: roundtrip_fidelity)."""
     original = make_sigil()
-    restored = deserialize_sigillin(serialize_sigillin(original, fmt="yaml"), fmt="yaml")
+    restored = deserialize_sigillin(
+        serialize_sigillin(original, fmt="yaml"), fmt="yaml"
+    )
     assert original.id == restored.id
     assert original.q4_state == restored.q4_state
 
@@ -194,7 +193,7 @@ def test_validate_wrong_version_detected() -> None:
 # ---------------------------------------------------------------------------
 
 def test_replay_reconstruct_exact_state() -> None:
-    """Replay rekonstruiert exakten Zustand aus serialisierter Form (BENCHMARK: replay_accuracy)."""
+    """Replay rekonstruiert exakten Zustand (BENCHMARK: replay_accuracy)."""
     original = make_sigil()
     raw = serialize_sigillin(original)
     replayed = deserialize_sigillin(raw)
@@ -220,29 +219,29 @@ def test_replay_narrative_preserved() -> None:
 def test_link_sigillins_adds_parent_id() -> None:
     """child.semantic_lineage enthält parent.id (BENCHMARK: lineage_traversal)."""
     parent = make_sigil(symbolic_identity="wurzel")
-    child = link_sigillins(parent, dict(
-        q4_state=Q4StateData(C=1, R=1, E=1, P=1),
-        crep=CREP,
-        symbolic_identity="ast",
-        timestamp=FIXED_TS,
-    ))
+    child = link_sigillins(parent, {
+        "q4_state": Q4StateData(C=1, R=1, E=1, P=1),
+        "crep": CREP,
+        "symbolic_identity": "ast",
+        "timestamp": FIXED_TS,
+    })
     assert parent.id in child.semantic_lineage
 
 def test_lineage_chain_traversal() -> None:
     """Vollständige Lineage-Kette traversierbar (BENCHMARK: lineage_traversal)."""
     root = make_sigil(symbolic_identity="root", timestamp=FIXED_TS)
-    mid = link_sigillins(root, dict(
-        q4_state=Q4,
-        crep=CREP,
-        symbolic_identity="mid",
-        timestamp="2026-04-20T00:00:00+00:00",
-    ))
-    leaf = link_sigillins(mid, dict(
-        q4_state=Q4,
-        crep=CREP,
-        symbolic_identity="leaf",
-        timestamp="2026-04-21T00:00:00+00:00",
-    ))
+    mid = link_sigillins(root, {
+        "q4_state": Q4,
+        "crep": CREP,
+        "symbolic_identity": "mid",
+        "timestamp": "2026-04-20T00:00:00+00:00",
+    })
+    leaf = link_sigillins(mid, {
+        "q4_state": Q4,
+        "crep": CREP,
+        "symbolic_identity": "leaf",
+        "timestamp": "2026-04-21T00:00:00+00:00",
+    })
 
     assert root.id in leaf.semantic_lineage
     assert mid.id in leaf.semantic_lineage
@@ -250,12 +249,12 @@ def test_lineage_chain_traversal() -> None:
 
 def test_link_sigillins_id_differs_from_parent() -> None:
     parent = make_sigil(symbolic_identity="elter")
-    child = link_sigillins(parent, dict(
-        q4_state=Q4,
-        crep=CREP,
-        symbolic_identity="kind",
-        timestamp="2026-04-22T00:00:00+00:00",
-    ))
+    child = link_sigillins(parent, {
+        "q4_state": Q4,
+        "crep": CREP,
+        "symbolic_identity": "kind",
+        "timestamp": "2026-04-22T00:00:00+00:00",
+    })
     assert child.id != parent.id
 
 def test_empty_lineage_for_root() -> None:
@@ -264,12 +263,12 @@ def test_empty_lineage_for_root() -> None:
 
 def test_lineage_serializes_correctly() -> None:
     parent = make_sigil(symbolic_identity="p", timestamp=FIXED_TS)
-    child = link_sigillins(parent, dict(
-        q4_state=Q4,
-        crep=CREP,
-        symbolic_identity="c",
-        timestamp="2026-04-23T00:00:00+00:00",
-    ))
+    child = link_sigillins(parent, {
+        "q4_state": Q4,
+        "crep": CREP,
+        "symbolic_identity": "c",
+        "timestamp": "2026-04-23T00:00:00+00:00",
+    })
     raw = serialize_sigillin(child)
     restored = deserialize_sigillin(raw)
     assert parent.id in restored.semantic_lineage

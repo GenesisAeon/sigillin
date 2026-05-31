@@ -5,7 +5,7 @@ description = "The poetic-symbolic interface layer of the GenesisAeon stack Ã¢â‚
 readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "GenesisAeon Team", email = "team@genesisaeon.org" }]
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 keywords = ["sigil", "mandala", "symbolic", "poetry", "crep", "genesisaeon", "trilayer"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -62,7 +62,7 @@ packages = ["src/sigillin"]
 
 [tool.ruff]
 line-length = 88
-target-version = "py311"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "B", "I", "W", "UP", "C4", "SIM"]

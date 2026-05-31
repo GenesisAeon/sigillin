@@ -14,7 +14,6 @@ from typing import Any
 
 import yaml
 
-
 # ---------------------------------------------------------------------------
 # Q4State (lokal — wird künftig durch genesis-q4-core ersetzt)
 # ---------------------------------------------------------------------------
@@ -25,6 +24,7 @@ class Q4StateData:
 
     INVARIANTE: 16 Zustände = 4 Bit. Nicht 16 Bit.
     """
+
     C: int  # 0 oder 1 (Kohärenz-Flag)
     R: int  # 0 oder 1 (Resonanz-Flag)
     E: int  # 0 oder 1 (Emergenz-Flag)
@@ -59,6 +59,7 @@ class Q4StateData:
 @dataclass(frozen=True)
 class CREPValues:
     """Kontinuierliche CREP-Float-Werte inkl. Gamma."""
+
     C: float
     R: float
     E: float
@@ -81,6 +82,7 @@ class CREPValues:
 @dataclass(frozen=True)
 class UTACState:
     """UTAC-Parameter (H, H_star, K_eff)."""
+
     H: float
     H_star: float
     K_eff: float
@@ -100,12 +102,17 @@ class UTACState:
 @dataclass
 class NarrativeMetadata:
     """Narrativer Kontext eines Sigillin-Records."""
+
     context: str = ""
     intention: str = ""
     cycle: int = 0
 
     def to_dict(self) -> dict[str, Any]:
-        return {"context": self.context, "intention": self.intention, "cycle": self.cycle}
+        return {
+            "context": self.context,
+            "intention": self.intention,
+            "cycle": self.cycle,
+        }
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> NarrativeMetadata:
@@ -153,6 +160,7 @@ class SigillinRecord:
       semantic_lineage:   list[str] — IDs der Vorgänger-Sigillins
       utac_state:         UTACState
     """
+
     id: str
     version: str
     timestamp: str
@@ -258,10 +266,7 @@ def serialize_sigillin(sigillin: SigillinRecord, fmt: str = "json") -> str:
 
 def deserialize_sigillin(data: str, fmt: str = "json") -> SigillinRecord:
     """Deserialisiert einen SigillinRecord aus JSON oder YAML."""
-    if fmt == "yaml":
-        d = yaml.safe_load(data)
-    else:
-        d = json.loads(data)
+    d = yaml.safe_load(data) if fmt == "yaml" else json.loads(data)
     return SigillinRecord.from_dict(d)
 
 
@@ -279,7 +284,9 @@ def validate_sigillin(sigillin: SigillinRecord) -> ValidationResult:
 
     recomputed = compute_sigillin_id(d)
     if sigillin.id != recomputed:
-        errors.append(f"ID-Mismatch: gespeichert={sigillin.id!r}, erwartet={recomputed!r}")
+        errors.append(
+            f"ID-Mismatch: gespeichert={sigillin.id!r}, erwartet={recomputed!r}"
+        )
 
     if sigillin.version != SIGILLIN_VERSION:
         errors.append(f"Unbekannte Version: {sigillin.version!r}")
@@ -292,14 +299,15 @@ def validate_sigillin(sigillin: SigillinRecord) -> ValidationResult:
     return ValidationResult(valid=len(errors) == 0, errors=errors)
 
 
-def link_sigillins(parent: SigillinRecord, child_params: dict[str, Any]) -> SigillinRecord:
-    """Erstellt einen neuen SigillinRecord der den parent in seiner Lineage referenziert.
+def link_sigillins(
+    parent: SigillinRecord,
+    child_params: dict[str, Any],
+) -> SigillinRecord:
+    """Erstellt einen neuen SigillinRecord der den parent in seiner Lineage
+    referenziert.
 
     child_params: Keyword-Args für create_sigillin (ohne 'lineage').
     Die Lineage des child enthält alle IDs des parent + parent.id selbst.
     """
     new_lineage = list(parent.semantic_lineage) + [parent.id]
-    return create_sigillin(
-        lineage=new_lineage,
-        **child_params,
-    )
+    return create_sigillin(lineage=new_lineage, **child_params)
