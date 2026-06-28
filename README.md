@@ -5,13 +5,13 @@ cosmic moments and entropy governance into living resonance.
 
 [![CI](https://github.com/GenesisAeon/sigillin/actions/workflows/ci.yml/badge.svg)](https://github.com/GenesisAeon/sigillin/actions/workflows/ci.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License: GPLv3+ / CC BY 4.0](https://img.shields.io/badge/License-GPLv3%2B%20%2F%20CC%20BY%204.0-blue.svg)](LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/sigillin)](https://pypi.org/project/sigillin/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19029975.svg)](https://doi.org/10.5281/zenodo.19029975)
 
 ---
 
-## Install
+## Installation
 
 ```bash
 pip install sigillin
@@ -21,9 +21,6 @@ uv add sigillin
 # Full GenesisAeon stack integration
 pip install "sigillin[stack]"
 ```
-
-**DOI**: [10.5281/zenodo.19029975](https://doi.org/10.5281/zenodo.19029975)
-**PyPI**: `pip install sigillin` (oder `pip install "sigillin[stack]"` für den vollen GenesisAeon-Stack)
 
 ## Usage
 
@@ -118,6 +115,31 @@ print(sigil["coherence"])          # 0.97
 print(sigil.get("tags", []))       # []
 print(repr(sigil))                 # Sigil(path=..., crep_valid=True)
 ```
+
+## Role in the GenesisAeon Ecosystem
+
+`sigillin` (P-SIGIL) is the symbolic interface layer of the GenesisAeon
+stack: it provides the semantic state anchors and trilayer sigil format
+that bind `fieldtheory`, `cosmic-moment`, `medium-modulation`, and
+`entropy-governance` into a shared, validatable representation.
+
+## License
+
+This repository is dual-licensed:
+
+- **Source code** — [GNU General Public License v3.0 or later](LICENSE-CODE) (GPL-3.0-or-later)
+- **Documentation** (this README, `docs/`, and other written content) —
+  [Creative Commons Attribution 4.0 International](LICENSE-DOCS) (CC BY 4.0)
+
+See [LICENSE](LICENSE) for details.
+
+## Citation
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19029975.svg)](https://doi.org/10.5281/zenodo.19029975)
+
+If you use `sigillin` in research, please cite via the Zenodo DOI above.
+A new DOI version is minted automatically on each GitHub Release once
+Zenodo-GitHub integration is enabled for this repo.
 
 ---
 

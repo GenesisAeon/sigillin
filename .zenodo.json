@@ -1,0 +1,33 @@
+{
+  "title": "sigillin — P-SIGIL: The poetic-symbolic interface layer of the GenesisAeon stack",
+  "description": "<p>The poetic-symbolic interface layer of the GenesisAeon stack: self-referential sigil parser, trilayer validation (YAML/JSON/Markdown), and MandalaMap resonance.</p><p>Part of the <strong>GenesisAeon</strong> ecosystem (P-SIGIL, domain: semantic state anchors / symbolic interface).</p><p>See <a href=\"https://github.com/GenesisAeon/sigillin\">github.com/GenesisAeon/sigillin</a> for source, documentation, and reproducibility notebooks.</p>",
+  "creators": [
+    {
+      "name": "Römer, Johann",
+      "affiliation": "Independent Researcher / MOR Research Collective"
+    }
+  ],
+  "license": "GPL-3.0-or-later",
+  "upload_type": "software",
+  "access_right": "open",
+  "keywords": [
+    "GenesisAeon",
+    "P-SIGIL",
+    "semantic state anchors",
+    "UTAC",
+    "CREP",
+    "open science"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.19645351",
+      "relation": "isPartOf",
+      "resource_type": "publication-article",
+      "scheme": "doi"
+    }
+  ],
+  "version": "1.0.0",
+  "communities": [
+    { "identifier": "genesisaeon" }
+  ]
+}
