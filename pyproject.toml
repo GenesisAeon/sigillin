@@ -1,9 +1,9 @@
 [project]
 name = "sigillin"
-version = "0.3.1"
-description = "The poetic-symbolic interface layer of the GenesisAeon stack â€“ self-referential sigil parser, trilayer validation (YAML/JSON/Markdown) and MandalaMap resonance."
+version = "1.0.0"
+description = "The poetic-symbolic interface layer of the GenesisAeon stack - self-referential sigil parser, trilayer validation (YAML/JSON/Markdown) and MandalaMap resonance."
 readme = "README.md"
-license = { text = "MIT" }
+license = { text = "GPL-3.0-or-later" }
 authors = [{ name = "GenesisAeon Team", email = "team@genesisaeon.org" }]
 requires-python = ">=3.10"
 keywords = ["sigil", "mandala", "symbolic", "poetry", "crep", "genesisaeon", "trilayer"]
@@ -11,7 +11,7 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -27,12 +27,12 @@ dependencies = [
 
 [project.optional-dependencies]
 stack = [
-    "fieldtheory>=0.1.0",
-    "cosmic-moment>=0.1.0",
-    "medium-modulation>=0.1.0",
-    "entropy-governance>=0.1.0",
-    "entropy-table>=1.0.1",
-    "implosive-genesis>=0.4.0",
+    "fieldtheory>=1.0.0",
+    "cosmic-moment>=1.0.0",
+    "medium-modulation>=1.0.0",
+    "entropy-governance>=1.0.0",
+    "entropy-table>=2.0.0",
+    "implosive-genesis>=1.0.0",
 ]
 dev = [
     "pytest>=8.0",
