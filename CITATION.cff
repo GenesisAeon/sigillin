@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "sigillin"
+version: "1.0.0"
+date-released: "2026-05-31"
+authors:
+  - name: "GenesisAeon Team"
+    email: team@genesisaeon.org
+repository-code: "https://github.com/GenesisAeon/sigillin"
+license: GPL-3.0-or-later
+abstract: "The poetic-symbolic interface layer of the GenesisAeon stack - self-referential sigil parser, trilayer validation (YAML/JSON/Markdown) and MandalaMap resonance."
+keywords:
+  - GenesisAeon
+  - UTAC
+  - CREP
+  - open-science
+  - sigil
+  - mandala
+  - symbolic
+  - poetry
